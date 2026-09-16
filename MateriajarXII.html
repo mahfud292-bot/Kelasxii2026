@@ -566,7 +566,150 @@ main{margin-left:250px;width:calc(100% - 250px)}
   .sidebar-backdrop.show{display:block;}
 }
 
+
+/* =========================================================
+   FINAL SIDEBAR FIX — Desktop / Tablet / Mobile
+   ========================================================= */
+:root{
+  --sidebar-expanded:280px;
+  --sidebar-tablet:250px;
+  --sidebar-collapsed:78px;
+}
+
+.sidebar{
+  width:var(--sidebar-expanded) !important;
+  min-width:var(--sidebar-expanded);
+  height:100dvh;
+  max-height:100dvh;
+  overflow-x:hidden;
+  overflow-y:auto;
+  transition:width .22s ease, min-width .22s ease, transform .22s ease, box-shadow .22s ease;
+}
+
+main{
+  margin-left:var(--sidebar-expanded) !important;
+  width:calc(100% - var(--sidebar-expanded)) !important;
+  transition:margin-left .22s ease, width .22s ease;
+}
+
+.sidebar.collapsed{
+  width:var(--sidebar-collapsed) !important;
+  min-width:var(--sidebar-collapsed);
+}
+
+.sidebar.collapsed + main{
+  margin-left:var(--sidebar-collapsed) !important;
+  width:calc(100% - var(--sidebar-collapsed)) !important;
+}
+
+.sidebar.collapsed .school-brand-text,
+.sidebar.collapsed .sidebar-divider,
+.sidebar.collapsed .nav-label,
+.sidebar.collapsed .side-progress,
+.sidebar.collapsed .side-note{
+  display:none !important;
+}
+
+.sidebar.collapsed .sidebar-brand{
+  justify-content:center;
+  padding-left:0;
+  padding-right:0;
+}
+
+.sidebar.collapsed .nav button{
+  justify-content:center;
+  padding-left:8px;
+  padding-right:8px;
+}
+
+.sidebar.collapsed .nav-icon{
+  width:100%;
+  flex:0 0 100%;
+}
+
+/* Tablet: expanded by default, collapsible to icon rail */
+@media (min-width:701px) and (max-width:1100px){
+  .sidebar{
+    width:var(--sidebar-tablet) !important;
+    min-width:var(--sidebar-tablet);
+    padding:18px 12px 15px;
+  }
+  main{
+    margin-left:var(--sidebar-tablet) !important;
+    width:calc(100% - var(--sidebar-tablet)) !important;
+  }
+  .sidebar.collapsed{
+    width:var(--sidebar-collapsed) !important;
+    min-width:var(--sidebar-collapsed);
+  }
+  .sidebar.collapsed + main{
+    margin-left:var(--sidebar-collapsed) !important;
+    width:calc(100% - var(--sidebar-collapsed)) !important;
+  }
+  .school-brand-text strong{font-size:12px}
+  .school-brand-text small{font-size:8.5px}
+  .nav button{min-height:45px}
+}
+
+/* Mobile: sidebar becomes an off-canvas drawer */
+@media (max-width:700px){
+  .sidebar{
+    width:280px !important;
+    min-width:280px;
+    transform:translateX(-105%);
+    box-shadow:12px 0 35px rgba(0,0,0,.20);
+  }
+  .sidebar.open{
+    transform:translateX(0);
+  }
+  .sidebar.collapsed{
+    width:280px !important;
+    min-width:280px;
+  }
+  .sidebar.collapsed .school-brand-text,
+  .sidebar.collapsed .sidebar-divider,
+  .sidebar.collapsed .nav-label,
+  .sidebar.collapsed .side-progress,
+  .sidebar.collapsed .side-note{
+    display:block !important;
+  }
+  .sidebar.collapsed .sidebar-brand{justify-content:flex-start}
+  .sidebar.collapsed .nav button{justify-content:flex-start;padding-left:13px;padding-right:13px}
+  .sidebar.collapsed .nav-icon{width:27px;flex:0 0 27px}
+  main{
+    margin-left:0 !important;
+    width:100% !important;
+  }
+  .top{padding-left:14px;padding-right:14px}
+  .menu-btn{
+    display:grid;
+    place-items:center;
+    width:42px;
+    height:42px;
+    flex:0 0 42px;
+    border-radius:11px;
+    background:#eef8f4;
+    color:#087653;
+    font-size:23px;
+  }
+}
+
+/* Keep backdrop below the sidebar and above page content */
+.sidebar-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(2,31,22,.38);
+  backdrop-filter:blur(2px);
+  -webkit-backdrop-filter:blur(2px);
+  z-index:19;
+  display:none;
+}
+.sidebar-backdrop.show{display:block}
+.sidebar{z-index:20}
+.top{z-index:12}
+
 </style>
+<!-- Sidebar tablet fix v2 -->
 </head>
 <body>
 <div class="app">
@@ -795,37 +938,66 @@ function resetBankAnswers(){document.querySelectorAll('#bankList input').forEach
 function init(){populateBankUnits();renderDeepUnits();renderModules();renderBank();updateAll()}
 init();
 
-// Sidebar toggle
+// Sidebar toggle — stable on desktop, tablet and mobile
 (function(){
   const menuBtn = document.querySelector('.menu-btn');
   const sidebar = document.getElementById('sidebar');
   if(!menuBtn || !sidebar) return;
-  const backdrop=document.createElement('div');
-  backdrop.className='sidebar-backdrop';
-  document.body.appendChild(backdrop);
-  const closeMobile=()=>{sidebar.classList.remove('open');backdrop.classList.remove('show');menuBtn.setAttribute('aria-expanded','false')};
-  menuBtn.addEventListener('click', function(){
-    if(window.innerWidth <= 700){
-      sidebar.classList.toggle('open');
-      backdrop.classList.toggle('show',sidebar.classList.contains('open'));
+
+  let backdrop = document.querySelector('.sidebar-backdrop');
+  if(!backdrop){
+    backdrop = document.createElement('div');
+    backdrop.className = 'sidebar-backdrop';
+    document.body.appendChild(backdrop);
+  }
+
+  const isMobile = () => window.innerWidth <= 700;
+
+  function syncButton(){
+    if(isMobile()){
       menuBtn.setAttribute('aria-expanded', String(sidebar.classList.contains('open')));
     }else{
-      sidebar.classList.toggle('collapsed');
       menuBtn.setAttribute('aria-expanded', String(!sidebar.classList.contains('collapsed')));
     }
+  }
+
+  function closeMobile(){
+    sidebar.classList.remove('open');
+    backdrop.classList.remove('show');
+    syncButton();
+  }
+
+  menuBtn.addEventListener('click', function(){
+    if(isMobile()){
+      sidebar.classList.toggle('open');
+      backdrop.classList.toggle('show', sidebar.classList.contains('open'));
+    }else{
+      sidebar.classList.toggle('collapsed');
+    }
+    syncButton();
   });
+
+  backdrop.addEventListener('click', closeMobile);
+
   document.querySelectorAll('.nav button').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      if(window.innerWidth <= 700)closeMobile();
+    btn.addEventListener('click', function(){
+      if(isMobile()) closeMobile();
     });
   });
-  backdrop.addEventListener('click',closeMobile);
-  window.addEventListener('resize',()=>{
-    if(window.innerWidth > 700){closeMobile();menuBtn.setAttribute('aria-expanded',String(!sidebar.classList.contains('collapsed')));}
+
+  window.addEventListener('resize', function(){
+    if(!isMobile()){
+      sidebar.classList.remove('open');
+      backdrop.classList.remove('show');
+    }
+    syncButton();
   });
-  document.addEventListener('keydown',e=>{
-    if(e.key==='Escape' && window.innerWidth <= 700)closeMobile();
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && isMobile()) closeMobile();
   });
+
+  syncButton();
 })();
 
 </script>
