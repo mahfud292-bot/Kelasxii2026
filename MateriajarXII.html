@@ -568,40 +568,58 @@ main{margin-left:250px;width:calc(100% - 250px)}
 
 
 /* =========================================================
-   FINAL SIDEBAR FIX — Desktop / Tablet / Mobile
+   FINAL SIDEBAR FIX v3 — attached toggle + tablet labels
    ========================================================= */
 :root{
   --sidebar-expanded:280px;
   --sidebar-tablet:250px;
   --sidebar-collapsed:78px;
 }
-
 .sidebar{
   width:var(--sidebar-expanded) !important;
-  min-width:var(--sidebar-expanded);
+  min-width:var(--sidebar-expanded) !important;
   height:100dvh;
   max-height:100dvh;
   overflow-x:hidden;
   overflow-y:auto;
   transition:width .22s ease, min-width .22s ease, transform .22s ease, box-shadow .22s ease;
 }
-
 main{
   margin-left:var(--sidebar-expanded) !important;
   width:calc(100% - var(--sidebar-expanded)) !important;
   transition:margin-left .22s ease, width .22s ease;
 }
-
+/* The toggle is physically attached to the sidebar edge. */
+.sidebar-toggle{
+  position:absolute;
+  top:50%;
+  right:-16px;
+  transform:translateY(-50%);
+  width:32px;
+  height:64px;
+  border:0;
+  border-radius:0 12px 12px 0;
+  background:#0b7653;
+  color:#fff;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  z-index:30;
+  box-shadow:5px 0 14px rgba(0,0,0,.16);
+  font-size:27px;
+  line-height:1;
+  transition:right .22s ease, background .18s ease;
+}
+.sidebar-toggle:hover{background:#0a6246}
+.sidebar-toggle span{display:block;transform:translateY(-1px)}
 .sidebar.collapsed{
   width:var(--sidebar-collapsed) !important;
-  min-width:var(--sidebar-collapsed);
+  min-width:var(--sidebar-collapsed) !important;
 }
-
 .sidebar.collapsed + main{
   margin-left:var(--sidebar-collapsed) !important;
   width:calc(100% - var(--sidebar-collapsed)) !important;
 }
-
 .sidebar.collapsed .school-brand-text,
 .sidebar.collapsed .sidebar-divider,
 .sidebar.collapsed .nav-label,
@@ -609,111 +627,74 @@ main{
 .sidebar.collapsed .side-note{
   display:none !important;
 }
+.sidebar.collapsed .sidebar-brand{justify-content:center;padding-left:0;padding-right:0}
+.sidebar.collapsed .nav button{justify-content:center;padding-left:8px;padding-right:8px}
+.sidebar.collapsed .nav-icon{width:100%;flex:0 0 100%}
+.sidebar.collapsed .sidebar-toggle{right:-16px}
 
-.sidebar.collapsed .sidebar-brand{
-  justify-content:center;
-  padding-left:0;
-  padding-right:0;
-}
-
-.sidebar.collapsed .nav button{
-  justify-content:center;
-  padding-left:8px;
-  padding-right:8px;
-}
-
-.sidebar.collapsed .nav-icon{
-  width:100%;
-  flex:0 0 100%;
-}
-
-/* Tablet: expanded by default, collapsible to icon rail */
+/* Tablet: labels and school identity MUST remain visible when expanded. */
 @media (min-width:701px) and (max-width:1100px){
   .sidebar{
     width:var(--sidebar-tablet) !important;
-    min-width:var(--sidebar-tablet);
+    min-width:var(--sidebar-tablet) !important;
     padding:18px 12px 15px;
   }
   main{
     margin-left:var(--sidebar-tablet) !important;
     width:calc(100% - var(--sidebar-tablet)) !important;
   }
-  .sidebar.collapsed{
-    width:var(--sidebar-collapsed) !important;
-    min-width:var(--sidebar-collapsed);
+  /* Override legacy max-width:1000px rules that hid all sidebar text. */
+  .sidebar:not(.collapsed) .school-brand-text,
+  .sidebar:not(.collapsed) .sidebar-divider,
+  .sidebar:not(.collapsed) .nav-label,
+  .sidebar:not(.collapsed) .side-progress,
+  .sidebar:not(.collapsed) .side-note{
+    display:block !important;
   }
-  .sidebar.collapsed + main{
-    margin-left:var(--sidebar-collapsed) !important;
-    width:calc(100% - var(--sidebar-collapsed)) !important;
-  }
+  .sidebar:not(.collapsed) .sidebar-brand{justify-content:flex-start}
+  .sidebar:not(.collapsed) .nav button{justify-content:flex-start}
+  .sidebar:not(.collapsed) .nav-icon{width:27px;flex:0 0 27px}
   .school-brand-text strong{font-size:12px}
   .school-brand-text small{font-size:8.5px}
   .nav button{min-height:45px}
 }
 
-/* Mobile: sidebar becomes an off-canvas drawer */
+/* Mobile remains a drawer; the attached desktop/tablet toggle is replaced by the top menu button. */
 @media (max-width:700px){
   .sidebar{
     width:280px !important;
-    min-width:280px;
+    min-width:280px !important;
     transform:translateX(-105%);
     box-shadow:12px 0 35px rgba(0,0,0,.20);
   }
-  .sidebar.open{
-    transform:translateX(0);
-  }
-  .sidebar.collapsed{
-    width:280px !important;
-    min-width:280px;
-  }
+  .sidebar.open{transform:translateX(0)}
+  .sidebar.collapsed{width:280px !important;min-width:280px !important}
   .sidebar.collapsed .school-brand-text,
   .sidebar.collapsed .sidebar-divider,
   .sidebar.collapsed .nav-label,
   .sidebar.collapsed .side-progress,
-  .sidebar.collapsed .side-note{
-    display:block !important;
-  }
+  .sidebar.collapsed .side-note{display:block !important}
   .sidebar.collapsed .sidebar-brand{justify-content:flex-start}
   .sidebar.collapsed .nav button{justify-content:flex-start;padding-left:13px;padding-right:13px}
   .sidebar.collapsed .nav-icon{width:27px;flex:0 0 27px}
-  main{
-    margin-left:0 !important;
-    width:100% !important;
-  }
+  .sidebar-toggle{display:none}
+  main{margin-left:0 !important;width:100% !important}
   .top{padding-left:14px;padding-right:14px}
-  .menu-btn{
-    display:grid;
-    place-items:center;
-    width:42px;
-    height:42px;
-    flex:0 0 42px;
-    border-radius:11px;
-    background:#eef8f4;
-    color:#087653;
-    font-size:23px;
-  }
+  .menu-btn{display:grid;place-items:center;width:42px;height:42px;flex:0 0 42px;border-radius:11px;background:#eef8f4;color:#087653;font-size:23px}
 }
-
-/* Keep backdrop below the sidebar and above page content */
-.sidebar-backdrop{
-  position:fixed;
-  inset:0;
-  background:rgba(2,31,22,.38);
-  backdrop-filter:blur(2px);
-  -webkit-backdrop-filter:blur(2px);
-  z-index:19;
-  display:none;
-}
+.sidebar-backdrop{position:fixed;inset:0;background:rgba(2,31,22,.38);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);z-index:19;display:none}
 .sidebar-backdrop.show{display:block}
 .sidebar{z-index:20}
 .top{z-index:12}
-
 </style>
 <!-- Sidebar tablet fix v2 -->
 </head>
 <body>
 <div class="app">
 <aside class="sidebar" id="sidebar">
+  <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Collapse sidebar" aria-expanded="true" title="Collapse sidebar">
+    <span>‹</span>
+  </button>
   <div class="sidebar-brand">
     <div class="school-logo" aria-label="SMA Negeri 1 Banggai">
       <div class="logo-inner">SMA<br><span>1</span></div>
@@ -938,68 +919,66 @@ function resetBankAnswers(){document.querySelectorAll('#bankList input').forEach
 function init(){populateBankUnits();renderDeepUnits();renderModules();renderBank();updateAll()}
 init();
 
-// Sidebar toggle — stable on desktop, tablet and mobile
+// Sidebar toggle — attached control on desktop/tablet, drawer control on mobile
 (function(){
-  const menuBtn = document.querySelector('.menu-btn');
   const sidebar = document.getElementById('sidebar');
-  if(!menuBtn || !sidebar) return;
+  const edgeBtn = document.getElementById('sidebarToggle');
+  const topBtn = document.querySelector('.menu-btn');
+  if(!sidebar) return;
 
   let backdrop = document.querySelector('.sidebar-backdrop');
   if(!backdrop){
-    backdrop = document.createElement('div');
-    backdrop.className = 'sidebar-backdrop';
+    backdrop=document.createElement('div');
+    backdrop.className='sidebar-backdrop';
     document.body.appendChild(backdrop);
   }
 
-  const isMobile = () => window.innerWidth <= 700;
-
-  function syncButton(){
-    if(isMobile()){
-      menuBtn.setAttribute('aria-expanded', String(sidebar.classList.contains('open')));
-    }else{
-      menuBtn.setAttribute('aria-expanded', String(!sidebar.classList.contains('collapsed')));
+  const mobile=()=>window.innerWidth<=700;
+  function sync(){
+    const collapsed=sidebar.classList.contains('collapsed');
+    if(edgeBtn){
+      const expanded=!collapsed;
+      edgeBtn.setAttribute('aria-expanded',String(expanded));
+      edgeBtn.setAttribute('aria-label',expanded?'Collapse sidebar':'Expand sidebar');
+      edgeBtn.title=expanded?'Collapse sidebar':'Expand sidebar';
+      edgeBtn.querySelector('span').textContent=expanded?'‹':'›';
+    }
+    if(topBtn){
+      topBtn.setAttribute('aria-expanded',mobile()?String(sidebar.classList.contains('open')):String(!collapsed));
     }
   }
+  function closeMobile(){sidebar.classList.remove('open');backdrop.classList.remove('show');sync();}
 
-  function closeMobile(){
-    sidebar.classList.remove('open');
-    backdrop.classList.remove('show');
-    syncButton();
-  }
+  edgeBtn?.addEventListener('click',function(e){
+    e.preventDefault();e.stopPropagation();
+    if(mobile()) return;
+    sidebar.classList.toggle('collapsed');
+    sync();
+  });
 
-  menuBtn.addEventListener('click', function(){
-    if(isMobile()){
+  topBtn?.addEventListener('click',function(e){
+    e.preventDefault();
+    if(mobile()){
       sidebar.classList.toggle('open');
-      backdrop.classList.toggle('show', sidebar.classList.contains('open'));
+      backdrop.classList.toggle('show',sidebar.classList.contains('open'));
     }else{
       sidebar.classList.toggle('collapsed');
     }
-    syncButton();
+    sync();
   });
 
-  backdrop.addEventListener('click', closeMobile);
-
-  document.querySelectorAll('.nav button').forEach(btn=>{
-    btn.addEventListener('click', function(){
-      if(isMobile()) closeMobile();
-    });
-  });
-
-  window.addEventListener('resize', function(){
-    if(!isMobile()){
+  backdrop.addEventListener('click',closeMobile);
+  document.querySelectorAll('.nav button').forEach(btn=>btn.addEventListener('click',()=>{if(mobile())closeMobile();}));
+  window.addEventListener('resize',()=>{
+    if(!mobile()){
       sidebar.classList.remove('open');
       backdrop.classList.remove('show');
     }
-    syncButton();
+    sync();
   });
-
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape' && isMobile()) closeMobile();
-  });
-
-  syncButton();
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&mobile())closeMobile();});
+  sync();
 })();
-
 </script>
 </body>
 </html>
