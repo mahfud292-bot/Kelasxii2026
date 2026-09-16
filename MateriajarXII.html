@@ -286,27 +286,345 @@ main{margin-left:250px;width:calc(100% - 250px)}
 }
 @media(max-width:480px){.teacher-badge{display:none}}
 
+
+/* ===== Clean & Responsive Sidebar ===== */
+.sidebar{
+  width:250px;
+  padding:20px 12px 16px;
+  background:linear-gradient(180deg,#075238 0%,#087653 56%,#07865d 100%);
+  box-shadow:8px 0 28px rgba(5,70,50,.12);
+  display:flex;
+  flex-direction:column;
+  overflow-y:auto;
+}
+.sidebar-brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:7px 8px 10px;
+}
+.school-logo{
+  width:52px;
+  height:52px;
+  flex:0 0 52px;
+  border-radius:15px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(145deg,#e9fff7,#a7f3d0);
+  border:2px solid rgba(255,255,255,.72);
+  box-shadow:0 7px 18px rgba(0,0,0,.15);
+  position:relative;
+}
+.school-logo:before{
+  content:"";
+  position:absolute;
+  inset:5px;
+  border:1px solid rgba(5,83,56,.28);
+  border-radius:11px;
+}
+.logo-inner{
+  position:relative;
+  z-index:1;
+  text-align:center;
+  color:#075238;
+  font-size:8px;
+  font-weight:950;
+  line-height:1;
+  letter-spacing:.3px;
+}
+.logo-inner span{font-size:22px;line-height:.9}
+.school-brand-text{
+  min-width:0;
+  color:#fff;
+}
+.school-brand-text strong{
+  display:block;
+  font-size:13px;
+  line-height:1.25;
+  letter-spacing:.55px;
+}
+.school-brand-text small{
+  display:block;
+  margin-top:5px;
+  color:#c9f5e3;
+  font-size:9px;
+  line-height:1.2;
+  letter-spacing:.25px;
+}
+.sidebar-divider{
+  height:1px;
+  margin:7px 8px 14px;
+  background:rgba(255,255,255,.16);
+}
+.nav{
+  display:grid;
+  gap:4px;
+}
+.nav button{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:100%;
+  min-height:46px;
+  margin:0;
+  padding:10px 13px;
+  border:0;
+  border-radius:11px;
+  background:transparent;
+  color:#dff8ed;
+  font-size:13px;
+  font-weight:700;
+  text-align:left;
+}
+.nav button:hover{
+  background:rgba(255,255,255,.10);
+  color:#fff;
+  box-shadow:none;
+}
+.nav button.active{
+  background:linear-gradient(90deg,rgba(24,203,142,.72),rgba(24,203,142,.38));
+  color:#fff;
+  box-shadow:inset 3px 0 0 #a7f3d0;
+}
+.nav-icon{
+  width:27px;
+  flex:0 0 27px;
+  display:grid;
+  place-items:center;
+  font-size:21px;
+  line-height:1;
+}
+.nav-label{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.sidebar-bottom{
+  margin-top:auto;
+  padding-top:18px;
+}
+.side-progress{
+  margin:0 7px 10px;
+  padding:13px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:13px;
+  background:rgba(0,55,39,.22);
+}
+.side-progress-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  margin-bottom:8px;
+  color:#effff8;
+  font-size:11px;
+  font-weight:800;
+}
+.side-progress-head b{
+  font-size:12px;
+  color:#a7f3d0;
+}
+.side-progress .mini-bar{
+  height:6px;
+  background:rgba(255,255,255,.16);
+}
+.side-progress .mini-bar i{
+  background:linear-gradient(90deg,#9ff0d0,#34d399);
+}
+.side-progress small{
+  display:block;
+  margin-top:7px;
+  color:#c5ecdd;
+  font-size:9px;
+}
+.side-note{
+  margin:0 7px;
+  padding:12px 13px;
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:13px;
+  background:rgba(255,255,255,.07);
+  color:#d9f7ea;
+  line-height:1.45;
+  font-size:10px;
+}
+.side-note strong,
+.side-note span,
+.side-note em{
+  display:block;
+}
+.side-note strong{
+  color:#fff;
+  font-size:11px;
+  margin-bottom:2px;
+}
+.side-note span{color:#c5ecdd}
+.side-note em{
+  margin-top:6px;
+  color:#a9dec9;
+  font-style:normal;
+  font-size:9px;
+  line-height:1.35;
+}
+
+/* Sidebar collapse for tablets/mobile */
+.menu-btn{
+  border:0;
+  background:transparent;
+  color:#087653;
+  font-size:25px;
+  line-height:1;
+  cursor:pointer;
+  padding:5px;
+}
+.sidebar.collapsed{
+  width:78px;
+  padding-left:9px;
+  padding-right:9px;
+}
+.sidebar.collapsed .school-brand-text,
+.sidebar.collapsed .sidebar-divider,
+.sidebar.collapsed .nav-label,
+.sidebar.collapsed .side-progress,
+.sidebar.collapsed .side-note{
+  display:none;
+}
+.sidebar.collapsed .sidebar-brand{
+  justify-content:center;
+  padding-left:0;
+  padding-right:0;
+}
+.sidebar.collapsed .nav button{
+  justify-content:center;
+  padding-left:8px;
+  padding-right:8px;
+}
+.sidebar.collapsed .nav-icon{
+  width:100%;
+}
+.sidebar.collapsed + main{
+  margin-left:78px;
+  width:calc(100% - 78px);
+}
+
+@media(max-width:1100px){
+  .sidebar{
+    width:78px;
+    padding-left:9px;
+    padding-right:9px;
+  }
+  .sidebar-brand{
+    justify-content:center;
+  }
+  .school-brand-text,
+  .sidebar-divider,
+  .nav-label,
+  .side-progress,
+  .side-note{
+    display:none;
+  }
+  .nav button{
+    justify-content:center;
+    padding-left:8px;
+    padding-right:8px;
+  }
+  .nav-icon{width:100%}
+  main{
+    margin-left:78px;
+    width:calc(100% - 78px);
+  }
+}
+@media(max-width:700px){
+  .sidebar{
+    transform:translateX(-100%);
+    transition:transform .22s ease;
+    width:250px;
+    padding:20px 12px 16px;
+  }
+  .sidebar.open{
+    transform:translateX(0);
+  }
+  .sidebar.open .school-brand-text,
+  .sidebar.open .sidebar-divider,
+  .sidebar.open .nav-label,
+  .sidebar.open .side-progress,
+  .sidebar.open .side-note{
+    display:block;
+  }
+  .sidebar.open .sidebar-brand{justify-content:flex-start}
+  .sidebar.open .nav button{justify-content:flex-start}
+  .sidebar.open .nav-icon{width:27px}
+  main{
+    margin-left:0;
+    width:100%;
+  }
+  .top{padding-left:14px;padding-right:14px}
+}
+
+
+@media(max-width:700px){
+  .sidebar-backdrop{position:fixed;inset:0;background:rgba(2,31,22,.38);backdrop-filter:blur(2px);z-index:19;display:none;}
+  .sidebar-backdrop.show{display:block;}
+}
+
 </style>
 </head>
 <body>
 <div class="app">
-<aside class="sidebar">
-  <div class="logo"><div class="logo-mark">E</div><div><b>English Learning Hub</b><small>Grade XII</small></div></div>
-  <nav class="nav">
-    <button id="nav-dashboard" class="active" onclick="showPage('dashboard')"><span>⌂</span>Dashboard</button>
-    <button id="nav-modules" onclick="showPage('modules')"><span>▣</span>Learning Modules</button>
-    <button id="nav-deep" onclick="showPage('deep')"><span>◈</span>Deep Learning</button>
-    <button id="nav-tka" onclick="showPage('tka')"><span>◎</span>TKA Question Bank</button>
-    <button id="nav-progress" onclick="showPage('progress')"><span>◒</span>My Progress</button>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="school-logo" aria-label="SMA Negeri 1 Banggai">
+      <div class="logo-inner">SMA<br><span>1</span></div>
+    </div>
+    <div class="school-brand-text">
+      <strong>SMA NEGERI 1</strong>
+      <strong>BANGGAI</strong>
+      <small>English Learning Hub</small>
+    </div>
+  </div>
+
+  <div class="sidebar-divider"></div>
+
+  <nav class="nav" aria-label="Main navigation">
+    <button id="nav-dashboard" class="active" onclick="showPage('dashboard')" title="Home">
+      <span class="nav-icon">⌂</span><span class="nav-label">Home</span>
+    </button>
+    <button id="nav-modules" onclick="showPage('modules')" title="Learning Units">
+      <span class="nav-icon">▣</span><span class="nav-label">Learning Units</span>
+    </button>
+    <button id="nav-deep" onclick="showPage('deep')" title="Deep Learning">
+      <span class="nav-icon">◈</span><span class="nav-label">Deep Learning</span>
+    </button>
+    <button id="nav-tka" onclick="showPage('tka')" title="TKA Question Bank">
+      <span class="nav-icon">◎</span><span class="nav-label">TKA Question Bank</span>
+    </button>
+    <button id="nav-progress" onclick="showPage('progress')" title="My Progress">
+      <span class="nav-icon">◒</span><span class="nav-label">My Progress</span>
+    </button>
   </nav>
-  <div class="side-progress"><small>Overall progress</small><b id="sidePct">0%</b><div class="mini-bar"><i id="sideBar" style="width:0%"></i></div></div>
-  <div class="side-note"><b>SMA NEGERI 1 BANGGAI</b><br>Bahasa Inggris • Kelas XII<br><span class="teacher-side">Mahfud S. Paukunding, S.Pd., Gr., M.Pd.</span><br>Teacher: Mahfud S. Paukunding, S.Pd., Gr., M.Pd.<br>Academic Year 2026/2027</div>
+
+  <div class="sidebar-bottom">
+    <div class="side-progress">
+      <div class="side-progress-head">
+        <span>My Progress</span>
+        <b id="sidePct">0%</b>
+      </div>
+      <div class="mini-bar"><i id="sideBar" style="width:0%"></i></div>
+      <small>Keep learning step by step.</small>
+    </div>
+
+    <div class="side-note">
+      <strong>Grade XII</strong>
+      <span>Bahasa Inggris</span>
+      <span>Academic Year 2026/2027</span>
+      <em>Teacher: Mahfud S. Paukunding, S.Pd., Gr., M.Pd.</em>
+    </div>
+  </div>
 </aside>
 <main>
 
 <header class="top">
   <div class="top-left">
-    <button class="menu-btn" type="button" aria-label="Menu">☰</button>
+    <button class="menu-btn" type="button" aria-label="Toggle navigation" aria-expanded="true">☰</button>
     <div class="hub-title">
       <span class="hub-icon">▱</span>
       <strong>English Learning Hub — Grade XII</strong>
@@ -437,7 +755,7 @@ const stateKey='englishHubXII_v2';
 let state=loadState();
 let currentUnit=0,currentLesson=0;
 function defaultState(){return {student:'Student',completed:{},quiz:{},reflections:{},last:{unit:0,lesson:0},xp:0}}
-function loadState(){try{return {...defaultState(),...JSON.parse(localStorage.getItem(stateKey)||'{}')}}catch(e){return defaultState()}}
+function loadState(){try{const saved=JSON.parse(localStorage.getItem(stateKey)||'null');if(!saved||typeof saved!=='object')return defaultState();const base=defaultState();return {...base,...saved,completed:(saved.completed&&typeof saved.completed==='object')?saved.completed:{},quiz:(saved.quiz&&typeof saved.quiz==='object')?saved.quiz:{},reflections:(saved.reflections&&typeof saved.reflections==='object')?saved.reflections:{},last:(saved.last&&typeof saved.last==='object')?saved.last:base.last,xp:Number.isFinite(Number(saved.xp))?Number(saved.xp):0}}catch(e){return defaultState()}}
 function saveState(){localStorage.setItem(stateKey,JSON.stringify(state));updateAll()}
 function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
 function lessonKey(u,l){return `${u}-${l}`}
@@ -445,10 +763,10 @@ function unitCompletedCount(u){return [0,1,2,3,4].filter(l=>state.completed[less
 function unitPct(u){return Math.round(unitCompletedCount(u)/5*100)}
 function completedCount(){return Object.values(state.completed).filter(Boolean).length}
 function overallPct(){return Math.round(completedCount()/TOTAL_LESSONS*100)}
-function quizEntries(){return Object.values(state.quiz).filter(x=>x&&typeof x.score==='number')}
+function quizEntries(){return Object.entries(state.quiz).filter(([k,x])=>/^\d+$/.test(k)&&x&&typeof x.score==='number').map(([,x])=>x)}
 function avgScore(){let a=quizEntries();return a.length?Math.round(a.reduce((s,x)=>s+x.score,0)/a.length):0}
 function badges(){let b=[];if(completedCount()>=1)b.push('🌱 First Step');if(completedCount()>=10)b.push('📚 Consistent Learner');if(completedCount()>=30)b.push('🚀 Halfway Hero');if(overallPct()===100)b.push('🏆 Course Finisher');if(avgScore()>=80&&quizEntries().length>=3)b.push('🎯 TKA Sharp');if(Object.keys(state.reflections).filter(k=>state.reflections[k]?.trim()).length>=5)b.push('🪞 Reflective Thinker');return b}
-function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));let nav=document.getElementById('nav-'+id);if(nav)nav.classList.add('active');document.getElementById('pageName').textContent={dashboard:'Dashboard',modules:'Learning Modules',deep:'Deep Learning',tka:'TKA Question Bank',progress:'My Progress',lesson:'Lesson'}[id]||'Dashboard';if(id==='modules')renderModules();if(id==='tka')renderBank();if(id==='progress')renderProgress();window.scrollTo({top:0,behavior:'smooth'})}
+function showPage(id){const page=document.getElementById(id);if(!page)return;document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));page.classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));const nav=document.getElementById('nav-'+id);if(nav)nav.classList.add('active');const names={dashboard:'Dashboard',modules:'Learning Units',deep:'Deep Learning',tka:'TKA Question Bank',progress:'My Progress',lesson:'Lesson'};document.getElementById('pageName').textContent=names[id]||'Dashboard';if(id==='modules')renderModules();if(id==='tka')renderBank();if(id==='progress')renderProgress();window.scrollTo({top:0,behavior:'smooth'})}
 function updateAll(){let pct=overallPct(), done=completedCount(), score=avgScore();['heroPct','dashProgress','sidePct','progOverall'].forEach(id=>document.getElementById(id).textContent=pct+'%');['heroBar','sideBar'].forEach(id=>document.getElementById(id).style.width=pct+'%');document.getElementById('heroSub').textContent=`${done} of ${TOTAL_LESSONS} lessons completed`;document.getElementById('dashScore').textContent=score;document.getElementById('dashCompleted').textContent=done;document.getElementById('dashXP').textContent=state.xp;document.getElementById('progAverage').textContent=score;document.getElementById('progXP').textContent=state.xp;document.getElementById('progBadges').textContent=badges().length;document.getElementById('badgeRow').innerHTML=badges().length?badges().map(x=>`<span class="badge">${x}</span>`).join(''):'<span class="muted">Complete lessons and quizzes to unlock badges.</span>';renderContinue();renderProgress();if(document.getElementById('modules').classList.contains('active'))renderModules()}
 function renderContinue(){let u=Math.min(state.last?.unit??0,units.length-1), l=Math.min(state.last?.lesson??0,4), m=units[u];document.getElementById('continueCard').innerHTML=`<div class="card module" onclick="openLesson(${u},${l})"><div class="module-top"><div class="icon">${m.icon}</div><span class="tag">${esc(m.focus)}</span></div><h3>${esc(m.title)}</h3><p>${esc(m.lessons[l].name)} — ${esc(m.desc)}</p><div class="mini"><span>Unit progress</span><b>${unitPct(u)}%</b></div><div class="mini-bar"><i style="width:${unitPct(u)}%"></i></div></div>`}
 function renderModules(){let q=(document.getElementById('moduleSearch')?.value||'').toLowerCase(), f=document.getElementById('moduleFilter')?.value||'all';let arr=units.filter(u=>(f==='all'||u.focus===f)&&(`${u.title} ${u.focus} ${u.desc}`.toLowerCase().includes(q)));document.getElementById('moduleList').innerHTML=arr.length?arr.map(u=>`<div class="card module" onclick="openLesson(${u.id},0)"><div class="module-top"><div class="icon">${u.icon}</div><span class="tag">${esc(u.focus)}</span></div><h3>Unit ${u.id+1}. ${esc(u.title)}</h3><p>${esc(u.desc)}</p><div class="mini"><span>${unitCompletedCount(u.id)}/5 lessons complete</span><b>${unitPct(u.id)}%</b></div><div class="mini-bar"><i style="width:${unitPct(u.id)}%"></i></div></div>`).join(''):'<div class="card empty">No units match the current filter.</div>'}
@@ -476,6 +794,40 @@ function updateBankSummary(visibleTotal){let uf=document.getElementById('bankUni
 function resetBankAnswers(){document.querySelectorAll('#bankList input').forEach(x=>x.checked=false);document.querySelectorAll('#bankList .option').forEach(x=>x.classList.remove('correct','wrong'));document.querySelectorAll('#bankList .result').forEach(x=>{x.style.display='none'});let uf=document.getElementById('bankUnit').value,tf=document.getElementById('bankType').value;units.forEach(u=>u.questions.forEach((q,i)=>{if((uf==='all'||+uf===u.id)&&(tf==='all'||tf===q.type))delete state.quiz[`bank-${u.id}-${i}`]}));saveState();updateBankSummary()}
 function init(){populateBankUnits();renderDeepUnits();renderModules();renderBank();updateAll()}
 init();
+
+// Sidebar toggle
+(function(){
+  const menuBtn = document.querySelector('.menu-btn');
+  const sidebar = document.getElementById('sidebar');
+  if(!menuBtn || !sidebar) return;
+  const backdrop=document.createElement('div');
+  backdrop.className='sidebar-backdrop';
+  document.body.appendChild(backdrop);
+  const closeMobile=()=>{sidebar.classList.remove('open');backdrop.classList.remove('show');menuBtn.setAttribute('aria-expanded','false')};
+  menuBtn.addEventListener('click', function(){
+    if(window.innerWidth <= 700){
+      sidebar.classList.toggle('open');
+      backdrop.classList.toggle('show',sidebar.classList.contains('open'));
+      menuBtn.setAttribute('aria-expanded', String(sidebar.classList.contains('open')));
+    }else{
+      sidebar.classList.toggle('collapsed');
+      menuBtn.setAttribute('aria-expanded', String(!sidebar.classList.contains('collapsed')));
+    }
+  });
+  document.querySelectorAll('.nav button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(window.innerWidth <= 700)closeMobile();
+    });
+  });
+  backdrop.addEventListener('click',closeMobile);
+  window.addEventListener('resize',()=>{
+    if(window.innerWidth > 700){closeMobile();menuBtn.setAttribute('aria-expanded',String(!sidebar.classList.contains('collapsed')));}
+  });
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape' && window.innerWidth <= 700)closeMobile();
+  });
+})();
+
 </script>
 </body>
 </html>
